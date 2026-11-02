@@ -1,0 +1,52 @@
+[project]
+name = "centreon-mcp"
+version = "0.0.1"
+description = "Centreon MCP Server"
+authors = [
+  {name = "Grégory Leventoux", email = "gleventoux@centreon.com"}
+]
+maintainers = [
+  {name = "Grégory Leventoux", email = "gleventoux@centreon.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastmcp>=4.0.3",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.12.0",
+    "python-dotenv>=1.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.15.2",
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.0",
+    "types-requests>=2.33.0.20260518",
+]
+
+[project.scripts]
+centreon-mcp-server = "centreon_mcp.__main__:main"
+
+[project.entry-points."centreon_mcp.auth"]
+none = "centreon_mcp.auth.plugins:NoAuthPlugin"
+
+[tool.uv]
+package = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+ignore = [
+  "E501",   # handled by formatter
+  "RUF001", # ambiguous unicode in strings — too noisy for French/typographic prompts
+  "RUF002", # same, but for docstrings
+  "RUF003", # same, but for comments
+]
